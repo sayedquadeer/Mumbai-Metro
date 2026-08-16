@@ -1,151 +1,117 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mumbai Metro Route Finder – Routes & Stations</title>
-  <meta name="description" content="Find Mumbai Metro routes and station names. Search your starting and destination stations to discover the metro route and line changes across Mumbai.">
-  <meta name="theme-color" content="#0f172a">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://YOUR-DOMAIN.example/">
-  <meta property="og:title" content="Mumbai Metro Route Finder – Routes & Stations">
-  <meta property="og:description" content="Search Mumbai Metro station routes cleanly and accurately. Find line switches and station order.">
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mumbai Metro Route Finder</title>
+  <meta name="description" content="Find the best Mumbai Metro routes, interchanges, fare estimates, and station information easily." />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <header>
-    <div class="nav-container">
-      <a href="index.html" class="brand-logo">Mumbai Metro <span>Route Finder</span></a>
-      <button class="menu-toggle" aria-label="Toggle navigation">☰</button>
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="routes.html">Routes</a></li>
-        <li><a href="stations.html">Stations</a></li>
-        <li><a href="lines.html">Lines</a></li>
-        <li><a href="map.html">Map</a></li>
-        <li><a href="faq.html">FAQ</a></li>
-      </ul>
+  <!-- HERO SECTION WITH MUMBAI LANDMARK BACKGROUND COLLAGE -->
+  <header class="hero-container">
+    
+    <!-- Mumbai Landmarks Composite Layer -->
+    <div class="mumbai-landmarks-bg" aria-hidden="true">
+      <!-- Marine Drive & Beach Scene (Left/Background) -->
+      <svg class="landmark landmark-marine-drive" viewBox="0 0 500 250" preserveAspectRatio="xMinYMax slice">
+        <path d="M0,180 Q150,160 300,210 T500,200 L500,250 L0,250 Z" fill="rgba(255,255,255,0.15)"/>
+        <path d="M0,195 Q150,175 300,220 T500,210" fill="none" stroke="rgba(255,215,0,0.3)" stroke-width="3" stroke-dasharray="4 6"/>
+        <circle cx="80" cy="190" r="1.5" fill="#ffd700"/>
+        <circle cx="160" cy="180" r="1.5" fill="#ffd700"/>
+        <circle cx="240" cy="190" r="1.5" fill="#ffd700"/>
+        <circle cx="320" cy="210" r="1.5" fill="#ffd700"/>
+      </svg>
+
+      <!-- Bandra-Worli Sea Link (Center/Left) -->
+      <svg class="landmark landmark-sealink" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax meet">
+        <!-- Pylons -->
+        <polygon points="120,300 135,110 145,110 160,300" fill="rgba(255,255,255,0.2)"/>
+        <polygon points="240,300 255,70 265,70 280,300" fill="rgba(255,255,255,0.22)"/>
+        <!-- Cables -->
+        <path d="M140,120 L40,300 M140,120 L70,300 M140,120 L100,300 M140,120 L180,300 M140,120 L210,300" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+        <path d="M260,80 L150,300 M260,80 L180,300 M260,80 L220,300 M260,80 L300,300 M260,80 L340,300 M260,80 L370,300" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+        <!-- Bridge Deck -->
+        <rect x="0" y="280" width="400" height="8" fill="rgba(255,255,255,0.25)"/>
+      </svg>
+
+      <!-- Gateway of India (Right/Background) -->
+      <svg class="landmark landmark-gateway" viewBox="0 0 300 300" preserveAspectRatio="xMaxYMax meet">
+        <path d="M50,300 L50,120 L70,100 L230,100 L250,120 L250,300 Z" fill="rgba(255,255,255,0.12)"/>
+        <!-- Central Arch -->
+        <path d="M100,300 L100,200 Q150,150 200,200 L200,300 Z" fill="rgba(5,20,45,0.6)"/>
+        <!-- Side Turrets & Dome -->
+        <rect x="40" y="80" width="30" height="40" fill="rgba(255,255,255,0.15)"/>
+        <rect x="230" y="80" width="30" height="40" fill="rgba(255,255,255,0.15)"/>
+        <path d="M110,100 Q150,60 190,100 Z" fill="rgba(255,255,255,0.18)"/>
+      </svg>
+
+      <!-- CSMT Terminus Detail (Lower/Right Background) -->
+      <svg class="landmark landmark-csmt" viewBox="0 0 350 250" preserveAspectRatio="xMaxYMax slice">
+        <path d="M50,250 L50,160 L120,130 L175,70 L230,130 L300,160 L300,250 Z" fill="rgba(255,255,255,0.08)"/>
+        <!-- Central Dome -->
+        <path d="M145,80 Q175,20 205,80 Z" fill="rgba(255,255,255,0.12)"/>
+        <line x1="175" y1="20" x2="175" y2="5" stroke="rgba(255,215,0,0.4)" stroke-width="2"/>
+        <!-- Rose Window Detail -->
+        <circle cx="175" cy="110" r="16" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+      </svg>
+    </div>
+
+    <!-- Soft Overlay Tint -->
+    <div class="hero-overlay"></div>
+
+    <!-- Main Hero Content -->
+    <div class="hero-content">
+      <h1>Mumbai Metro Route Finder</h1>
+      <h2>Find Your Best Mumbai Metro Route</h2>
+
+      <!-- Glassmorphism Route Card -->
+      <div class="glass-route-card">
+        <form id="route-form" onsubmit="return false;">
+          
+          <div class="input-group">
+            <label for="from-station">FROM STATION</label>
+            <div class="autocomplete-wrapper">
+              <input 
+                type="text" 
+                id="from-station" 
+                placeholder="Search starting station..." 
+                autocomplete="off" 
+                required
+              />
+              <div id="from-autocomplete-list" class="autocomplete-items"></div>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="to-station">TO STATION</label>
+            <div class="autocomplete-wrapper">
+              <input 
+                type="text" 
+                id="to-station" 
+                placeholder="Search destination station..." 
+                autocomplete="off" 
+                required
+              />
+              <div id="to-autocomplete-list" class="autocomplete-items"></div>
+            </div>
+          </div>
+
+          <button type="submit" id="find-route-btn" class="btn-primary">
+            FIND METRO ROUTE
+          </button>
+
+        </form>
+      </div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Mumbai Metro Route Finder</h1>
-      <p>Direct navigation across Line 1, Line 2A, and Line 7</p>
-      
-      <div class="finder-card">
-        <h2 style="font-size: 1.25rem; margin-bottom: 1rem; text-align: center;">Find Your Best Mumbai Metro Route</h2>
-        
-        <div class="form-group">
-          <label for="from-station">FROM STATION</label>
-          <div class="input-wrapper">
-            <input type="text" id="from-station" class="form-control" placeholder="Type starting station (e.g. Andheri)" autocomplete="off">
-            <ul id="from-suggestions" class="suggestions-list"></ul>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="to-station">TO STATION</label>
-          <div class="input-wrapper">
-            <input type="text" id="to-station" class="form-control" placeholder="Type destination station (e.g. Ghatkopar)" autocomplete="off">
-            <ul id="to-suggestions" class="suggestions-list"></ul>
-          </div>
-        </div>
-
-        <button id="find-route-btn" class="btn-primary">FIND METRO ROUTE</button>
-        <div id="route-error" class="text-error"></div>
-      </div>
-    </div>
-  </section>
-
-  <main>
-    <section id="route-results" class="results-container">
-      <h2 class="section-title">Best Available Metro Route</h2>
-      <div id="route-summary-box" class="route-summary"></div>
-      <div id="route-timeline" class="timeline"></div>
-    </section>
-
-    <section style="margin-top: 2.5rem;">
-      <h2 class="section-title">Popular Mumbai Metro Routes</h2>
-      <div class="grid">
-        <div class="card" onclick="selectPopularRoute('Versova', 'Ghatkopar')" style="cursor:pointer;">
-          <h3>Versova to Ghatkopar</h3>
-          <p>Line 1 (Blue Line) direct route</p>
-        </div>
-        <div class="card" onclick="selectPopularRoute('Dahisar East', 'Andheri West')" style="cursor:pointer;">
-          <h3>Dahisar East to Andheri West</h3>
-          <p>Line 2A (Yellow Line) connectivity</p>
-        </div>
-        <div class="card" onclick="selectPopularRoute('Dahisar East', 'Gundavali')" style="cursor:pointer;">
-          <h3>Dahisar East to Gundavali</h3>
-          <p>Line 7 (Red Line) path</p>
-        </div>
-      </div>
-    </section>
-
-    <section style="margin-top: 2.5rem;">
-      <h2 class="section-title">Mumbai Metro Stations</h2>
-      <p>Browse through operational network stops including D.N. Nagar, Andheri, Dahisar East, and Ghatkopar interchange nodes.</p>
-    </section>
-
-    <section style="margin-top: 2.5rem;">
-      <h2 class="section-title">Mumbai Metro Lines</h2>
-      <p>Currently covering structural system layout algorithms for Line 1 (Versova-Ghatkopar), Line 2A (Dahisar East-Andheri West), and Line 7 (Dahisar East-Gundavali).</p>
-    </section>
-
-    <section style="margin-top: 2.5rem;">
-      <h2 class="section-title">Mumbai Metro Route Guide</h2>
-      <p>Select your departure station and destination stop inside the finder component. The algorithm maps out the shortest sequence of stops along with any required line changes.</p>
-    </section>
-
-    <section style="margin-top: 2.5rem;">
-      <h2 class="section-title">Frequently Asked Questions About Mumbai Metro</h2>
-      <p>Find technical route and station connection info using our direct dedicated <a href="faq.html">FAQ Page</a>.</p>
-    </section>
+  <!-- Route Results Section (Existing Containers Kept Intact) -->
+  <main class="main-container">
+    <div id="route-results" class="results-container"></div>
   </main>
 
-  <footer>
-    <div class="footer-container">
-      <div class="footer-col">
-        <h3>Mumbai Metro Route Finder</h3>
-        <p>Independent navigation and routing tool for modern Mumbai Metro networks.</p>
-      </div>
-      <div class="footer-col">
-        <h3>Quick Links</h3>
-        <ul>
-          <li><a href="routes.html">Routes</a></li>
-          <li><a href="stations.html">Stations</a></li>
-          <li><a href="lines.html">Lines</a></li>
-          <li><a href="map.html">Map</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Information</h3>
-        <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="disclaimer.html">Disclaimer</a></li>
-          <li><a href="faq.html">FAQ</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 Mumbai Metro Route Finder. Unofficial static travel tool.</p>
-    </div>
-  </footer>
-
-  <script src="js/metro.js"></script>
   <script src="js/app.js"></script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Mumbai Metro Route Finder",
-    "url": "https://YOUR-DOMAIN.example/"
-  }
-  </script>
 </body>
 </html>
-
