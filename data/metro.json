@@ -1,0 +1,82 @@
+{
+  "lines": [
+    {
+      "id": "line-1",
+      "name": "Line 1 (Blue Line)",
+      "color": "#0072CE",
+      "stations": [
+        "Versova",
+        "D.N. Nagar",
+        "Azad Nagar",
+        "Andheri",
+        "Western Express Highway",
+        "Chakala (JB Nagar)",
+        "Airport Road",
+        "Marol Naka",
+        "Saki Naka",
+        "Asalpha",
+        "Jagruti Nagar",
+        "Ghatkopar"
+      ]
+    },
+    {
+      "id": "line-2a",
+      "name": "Line 2A (Yellow Line)",
+      "color": "#FFC72C",
+      "stations": [
+        "Dahisar East",
+        "Anand Nagar",
+        "Kandarpada",
+        "Mandapeshwar",
+        "Dahanukarwadi",
+        "Kandivali West",
+        "Pahadi Exer",
+        "Goregaon West",
+        "Oshiwara",
+        "Lower Oshiwara",
+        "D.N. Nagar",
+        "Andheri West"
+      ]
+    },
+    {
+      "id": "line-7",
+      "name": "Line 7 (Red Line)",
+      "color": "#E31837",
+      "stations": [
+        "Dahisar East",
+        "Ovaripada",
+        "National Park",
+        "Devipada",
+        "Magathane",
+        "Poisar",
+        "Akurli",
+        "Kurar",
+        "Dindoshi",
+        "Aarey",
+        "Goregaon East",
+        "Jogeshwari East",
+        "Moglra",
+        "Gundavali"
+      ]
+    }
+  ],
+  "interchanges": [
+    {
+      "station": "D.N. Nagar",
+      "lines": ["line-1", "line-2a"],
+      "walkable": true
+    },
+    {
+      "station": "Dahisar East",
+      "lines": ["line-2a", "line-7"],
+      "walkable": true
+    },
+    {
+      "station": "Gundavali",
+      "lines": ["line-7", "line-1"],
+      "connectsTo": "Western Express Highway",
+      "walkable": true
+    }
+  ]
+}
+
