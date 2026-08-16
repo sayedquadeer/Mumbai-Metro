@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frequently Asked Questions – Mumbai Metro Route Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">Mumbai Metro <span>Route Finder</span></a>
+      <button class="menu-toggle">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="routes.html">Routes</a></li>
+        <li><a href="stations.html">Stations</a></li>
+        <li><a href="lines.html">Lines</a></li>
+        <li><a href="map.html">Map</a></li>
+        <li><a href="faq.html" class="active">FAQ</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="section-title">Mumbai Metro Route FAQ</h1>
+    
+    <div style="display:flex; flex-direction:column; gap:1.5rem;">
+      <div class="card">
+        <h3>How do I search for a route between two Mumbai Metro stations?</h3>
+        <p>Use the route finder input fields on the Home or Routes page, select your start and end station, and click 'FIND METRO ROUTE'.</p>
+      </div>
+
+      <div class="card">
+        <h3>How does interchange handling work in this tool?</h3>
+        <p>The system automatically runs a Breadth-First Search (BFS) graph algorithm across connected metro lines to identify transfer nodes like D.N. Nagar or Dahisar East.</p>
+      </div>
+
+      <div class="card">
+        <h3>Are all station names up-to-date?</h3>
+        <p>Station dataset records are systematically verified against public operational line schedules.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p><a href="about.html">About</a> | <a href="privacy.html">Privacy Policy</a> | <a href="disclaimer.html">Disclaimer</a></p>
+    </div>
+  </footer>
+
+  <script src="js/metro.js"></script>
+  <script src="js/app.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
+      "@type": "Question",
+      "name": "How do I search for a route between two Mumbai Metro stations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the route finder input fields on the Home or Routes page, select your start and end station, and click FIND METRO ROUTE."
+      }
+    }, {
+      "@type": "Question",
+      "name": "How does interchange handling work in this tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The system automatically runs a Breadth-First Search (BFS) graph algorithm across connected metro lines to identify transfer nodes."
+      }
+    }]
+  }
+  </script>
+</body>
+</html>
+
