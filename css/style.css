@@ -1,16 +1,12 @@
-/* ==========================================
-   RESET & COLOR VARIABLES
-   ========================================== */
 :root {
   --navy-deep: #05142d;
   --navy-medium: #0f2a4a;
   --blue-sky: #00a8e8;
   --gold-accent: #ffd700;
   --text-dark: #1e293b;
-  --text-muted: #64748b;
   --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.6);
-  --shadow-soft: 0 16px 40px rgba(5, 20, 45, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --shadow-soft: 0 20px 40px rgba(5, 20, 45, 0.3);
 }
 
 * {
@@ -26,9 +22,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ==========================================
-   HERO SECTION & MUMBAI BACKGROUND
-   ========================================== */
+/* Hero Section Base */
 .hero-container {
   position: relative;
   width: 100%;
@@ -37,11 +31,11 @@ body {
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #05142d 0%, #0d3153 50%, #163e63 100%);
-  padding: 2rem 1rem;
+  padding: 2.5rem 1rem;
   overflow: hidden;
 }
 
-/* Landmarks Composite Container */
+/* Background Landmarks Layer */
 .mumbai-landmarks-bg {
   position: absolute;
   top: 0;
@@ -55,55 +49,30 @@ body {
 .landmark {
   position: absolute;
   bottom: 0;
-  filter: blur(0.5px);
+  filter: blur(0.3px);
 }
 
-/* Individual Landmark Positioning & Scale */
-.landmark-marine-drive {
-  left: 0;
-  width: 55%;
-  height: auto;
-  opacity: 0.6;
-}
+.landmark-marine-drive { left: 0; width: 55%; height: auto; opacity: 0.6; }
+.landmark-sealink { left: 15%; width: 45%; height: auto; opacity: 0.7; }
+.landmark-gateway { right: 2%; width: 35%; height: auto; opacity: 0.65; }
+.landmark-csmt { right: 22%; width: 38%; height: auto; opacity: 0.45; }
 
-.landmark-sealink {
-  left: 15%;
-  width: 45%;
-  height: auto;
-  opacity: 0.7;
-}
-
-.landmark-gateway {
-  right: 2%;
-  width: 35%;
-  height: auto;
-  opacity: 0.65;
-}
-
-.landmark-csmt {
-  right: 22%;
-  width: 38%;
-  height: auto;
-  opacity: 0.45;
-}
-
-/* Soft Dark/Blue Overlay Layer */
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, rgba(5, 20, 45, 0.35) 0%, rgba(5, 20, 45, 0.65) 100%);
+  background: radial-gradient(circle at center, rgba(5, 20, 45, 0.4) 0%, rgba(5, 20, 45, 0.65) 100%);
   z-index: 2;
 }
 
-/* Hero Text & Layout */
+/* Hero Layout */
 .hero-content {
   position: relative;
   z-index: 3;
   width: 100%;
-  max-width: 540px;
+  max-width: 520px;
   text-align: center;
   margin: 0 auto;
 }
@@ -114,7 +83,7 @@ body {
   font-weight: 800;
   letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .hero-content h2 {
@@ -124,15 +93,13 @@ body {
   margin-bottom: 2rem;
 }
 
-/* ==========================================
-   GLASSMORPHISM ROUTE CARD
-   ========================================== */
+/* Glassmorphism Route Card */
 .glass-route-card {
   background: var(--glass-bg);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 2rem;
   box-shadow: var(--shadow-soft);
   text-align: left;
@@ -164,7 +131,7 @@ body {
   background: rgba(255, 255, 255, 0.95);
   color: var(--text-dark);
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input-group input:focus {
@@ -172,32 +139,53 @@ body {
   box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.2);
 }
 
-/* Autocomplete Dropdown List Styling */
+/* Autocomplete Dropdown Menu */
 .autocomplete-items {
   position: absolute;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(5, 20, 45, 0.15);
   border-top: none;
-  z-index: 99;
+  z-index: 1000;
   top: 100%;
   left: 0;
   right: 0;
   background-color: #ffffff;
-  border-radius: 0 0 8px 8px;
-  max-height: 200px;
+  border-radius: 0 0 10px 10px;
+  max-height: 220px;
   overflow-y: auto;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
 }
 
-.autocomplete-items div {
+.autocomplete-item {
   padding: 0.75rem 1rem;
   cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--text-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s ease;
 }
 
-.autocomplete-items div:hover {
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover {
   background-color: #f0f7ff;
+}
+
+.autocomplete-item .station-name {
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--navy-deep);
+}
+
+.autocomplete-item .station-line {
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
 }
 
 .btn-primary {
@@ -211,39 +199,21 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
   box-shadow: 0 4px 12px rgba(5, 20, 45, 0.2);
 }
 
-.btn-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(5, 20, 45, 0.3);
-}
-
-/* ==========================================
-   MOBILE RESPONSIVENESS
-   ========================================== */
+/* Mobile Layout Adjustments */
 @media (max-width: 600px) {
   .hero-container {
     min-height: 90vh;
     padding: 1.5rem 1rem;
   }
 
-  .hero-content h1 {
-    font-size: 1.75rem;
-  }
+  .hero-content h1 { font-size: 1.75rem; }
+  .hero-content h2 { font-size: 0.95rem; margin-bottom: 1.5rem; }
 
-  .hero-content h2 {
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-  }
+  .glass-route-card { padding: 1.25rem; border-radius: 16px; }
 
-  .glass-route-card {
-    padding: 1.25rem;
-    border-radius: 12px;
-  }
-
-  /* Scale SVG landmarks down so they remain subtly visible without overflowing */
   .landmark-marine-drive { width: 80%; opacity: 0.45; }
   .landmark-sealink { width: 70%; left: 5%; opacity: 0.55; }
   .landmark-gateway { width: 50%; right: -5%; opacity: 0.5; }
