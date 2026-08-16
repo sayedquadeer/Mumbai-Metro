@@ -1,126 +1,67 @@
-class MetroRouter {
-  constructor(data) {
-    this.lines = data.lines;
-    this.interchanges = data.interchanges;
-    this.graph = {};
-    this.stationLinesMap = {};
-    this.buildGraph();
-  }
+// Central Data Loader & Verification Utility
+const MetroData = {
+  stations: [],
+  isLoaded: false,
 
-  buildGraph() {
-    this.lines.forEach(line => {
-      for (let i = 0; i < line.stations.length; i++) {
-        const station = line.stations[i];
-        
-        if (!this.graph[station]) this.graph[station] = [];
-        if (!this.stationLinesMap[station]) this.stationLinesMap[station] = new Set();
-        
-        this.stationLinesMap[station].add(line.id);
-
-        if (i > 0) {
-          const prev = line.stations[i - 1];
-          this.graph[station].push({ node: prev, line: line.id });
-        }
-        if (i < line.stations.length - 1) {
-          const next = line.stations[i + 1];
-          this.graph[station].push({ node: next, line: line.id });
-        }
-      }
-    });
-
-    this.interchanges.forEach(ic => {
-      const source = ic.station;
-      const target = ic.connectsTo || ic.station;
-      if (source !== target && this.graph[source] && this.graph[target]) {
-        this.graph[source].push({ node: target, line: 'interchange' });
-        this.graph[target].push({ node: source, line: 'interchange' });
-      }
-    });
-  }
-
-  findRoute(start, end) {
-    if (!this.graph[start] || !this.graph[end]) return null;
-    if (start === end) return { sameStation: true };
-
-    const queue = [[start, [{ station: start, line: null }]]];
-    const visited = new Set([start]);
-
-    while (queue.length > 0) {
-      const [current, path] = queue.shift();
-
-      if (current === end) {
-        return this.formatRoute(path);
-      }
-
-      for (const neighbor of this.graph[current]) {
-        if (!visited.has(neighbor.node)) {
-          visited.add(neighbor.node);
-          queue.push([
-            neighbor.node,
-            [...path, { station: neighbor.node, line: neighbor.line }]
-          ]);
-        }
-      }
-    }
-    return null;
-  }
-
-  formatRoute(path) {
-    const formattedSteps = [];
-    let interchangeCount = 0;
-
-    for (let i = 0; i < path.length; i++) {
-      const step = path[i];
-      if (i === 0) {
-        const nextLine = path[i + 1] ? path[i + 1].line : null;
-        formattedSteps.push({
-          station: step.station,
-          line: nextLine,
-          type: 'start'
+  async init() {
+    if (this.isLoaded) return;
+    try {
+      const response = await fetch('data/metro.json');
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      
+      // Extract unique station entities across all configured line arrays
+      const stationMap = new Map();
+      
+      if (data.lines && Array.isArray(data.lines)) {
+        data.lines.forEach(line => {
+          if (line.stations && Array.isArray(line.stations)) {
+            line.stations.forEach(st => {
+              const name = typeof st === 'string' ? st : st.name;
+              if (name && !stationMap.has(name)) {
+                stationMap.set(name, {
+                  name: name,
+                  line: line.name || 'Mumbai Metro'
+                });
+              }
+            });
+          }
         });
-      } else {
-        const prevLine = path[i - 1].line;
-        if (step.line === 'interchange') {
-          interchangeCount++;
-          formattedSteps.push({
-            station: step.station,
-            line: 'interchange',
-            type: 'interchange'
-          });
-        } else if (step.line !== prevLine && prevLine !== null && prevLine !== 'interchange') {
-          interchangeCount++;
-          formattedSteps.push({
-            station: step.station,
-            line: step.line,
-            type: 'interchange'
-          });
-        } else {
-          formattedSteps.push({
-            station: step.station,
-            line: step.line,
-            type: 'pass'
-          });
-        }
       }
+
+      this.stations = Array.from(stationMap.values());
+      this.isLoaded = true;
+    } catch (err) {
+      console.error('Failed to load metro station data:', err);
     }
+  },
 
-    return {
-      totalStations: path.length,
-      interchanges: interchangeCount,
-      path: formattedSteps
-    };
+  normalize(str) {
+    return (str || '')
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, ' ');
+  },
+
+  searchStations(query) {
+    const cleanQuery = this.normalize(query);
+    if (!cleanQuery) return [];
+
+    // Pass 1: Starts With Match
+    const startsWithMatches = this.stations.filter(st => 
+      this.normalize(st.name).startsWith(cleanQuery)
+    );
+
+    // Pass 2: Includes Match (excluding previous startsWith hits)
+    const includesMatches = this.stations.filter(st => 
+      !this.normalize(st.name).startsWith(cleanQuery) && 
+      this.normalize(st.name).includes(cleanQuery)
+    );
+
+    return [...startsWithMatches, ...includesMatches];
   }
+};
 
-  getAllStations() {
-    return Object.keys(this.graph).sort();
-  }
-
-  getLineDetails(lineId) {
-    return this.lines.find(l => l.id === lineId);
-  }
-}
-
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = MetroRouter;
-}
-
+document.addEventListener('DOMContentLoaded', () => {
+  MetroData.init();
+});
