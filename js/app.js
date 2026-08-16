@@ -27,7 +27,7 @@ async function loadMetroData() {
       setupAutocomplete('to-station', 'to-suggestions');
     }
 
-    // Trigger page specific renders
+    // Trigger page-specific renders
     if (window.location.pathname.includes('stations.html')) renderStationsPage();
     if (window.location.pathname.includes('lines.html')) renderLinesPage();
   } catch (e) {
@@ -38,35 +38,61 @@ async function loadMetroData() {
 function setupAutocomplete(inputId, listId) {
   const input = document.getElementById(inputId);
   const list = document.getElementById(listId);
+  if (!input || !list) return;
+
   const stations = router.getAllStations();
 
   input.addEventListener('input', () => {
     const val = input.value.trim().toLowerCase();
     list.innerHTML = '';
-    if (!val) {
+
+    // Requirement 1 & 7: When input is empty, show NO suggestions
+    if (val.length === 0) {
       list.classList.remove('active');
       return;
     }
 
-    const matches = stations.filter(s => s.toLowerCase().includes(val));
+    // Requirement 2 & 3: Match from 1+ character, case-insensitive partial match
+    const matches = stations.filter(station => station.toLowerCase().includes(val));
+
     if (matches.length > 0) {
-      matches.forEach(station => {
+      matches.forEach(stationName => {
         const li = document.createElement('li');
-        li.textContent = station;
+        
+        // Lookup line details for visual context tag
+        const lineIds = Array.from(router.stationLinesMap[stationName] || []);
+        const lineNames = lineIds.map(id => {
+          const details = router.getLineDetails(id);
+          return details ? details.name.split(' (')[0] : '';
+        }).filter(Boolean).join(', ');
+
+        li.innerHTML = `
+          <div class="suggestion-item-main">
+            <span class="suggestion-icon">🚇</span>
+            <span>${stationName}</span>
+          </div>
+          ${lineNames ? `<span class="suggestion-line-tag">${lineNames}</span>` : ''}
+        `;
+
+        // Requirement 5: Tap/click puts station name into input, closes list, stores value
         li.addEventListener('click', () => {
-          input.value = station;
+          input.value = stationName;
           list.classList.remove('active');
+          list.innerHTML = '';
         });
+
         list.appendChild(li);
       });
+
       list.classList.add('active');
     } else {
       list.classList.remove('active');
     }
   });
 
+  // Close suggestion dropdown when clicking outside
   document.addEventListener('click', (e) => {
-    if (e.target !== input && e.target !== list) {
+    if (!input.contains(e.target) && !list.contains(e.target)) {
       list.classList.remove('active');
     }
   });
@@ -174,4 +200,3 @@ function renderLinesPage() {
     </div>
   `).join('');
 }
-
