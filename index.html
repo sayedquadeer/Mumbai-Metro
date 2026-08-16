@@ -9,57 +9,65 @@
 </head>
 <body>
 
-  <!-- HERO SECTION WITH MUMBAI LANDMARKS COLLAGE -->
+  <!-- HERO SECTION WITH MUMBAI 3-LANDMARK BLENDED BACKGROUND -->
   <header class="hero-container">
     
-    <!-- Mumbai Landmarks Layer -->
+    <!-- Photo Layer: Blended Mumbai Landmarks Collage (Fallback/Imagery) -->
+    <div class="mumbai-photo-bg" aria-hidden="true"></div>
+
+    <!-- SVG Layer: Vector Silhouettes of Gateway, CSMT, and Sea Link -->
     <div class="mumbai-landmarks-bg" aria-hidden="true">
-      <!-- Marine Drive (Left) -->
-      <svg class="landmark landmark-marine-drive" viewBox="0 0 500 250" preserveAspectRatio="xMinYMax slice">
-        <path d="M0,180 Q150,160 300,210 T500,200 L500,250 L0,250 Z" fill="rgba(255,255,255,0.18)"/>
-        <path d="M0,195 Q150,175 300,220 T500,210" fill="none" stroke="rgba(255,215,0,0.4)" stroke-width="3" stroke-dasharray="4 6"/>
-        <circle cx="80" cy="190" r="2" fill="#ffd700"/>
-        <circle cx="160" cy="180" r="2" fill="#ffd700"/>
-        <circle cx="240" cy="190" r="2" fill="#ffd700"/>
-        <circle cx="320" cy="210" r="2" fill="#ffd700"/>
+      
+      <!-- 1. Gateway of India (Positioned Left) -->
+      <svg class="landmark landmark-gateway" viewBox="0 0 300 300" preserveAspectRatio="xMinYMax meet">
+        <!-- Main Structure -->
+        <path d="M40,300 L40,110 L65,90 L235,90 L260,110 L260,300 Z" fill="rgba(255,255,255,0.16)"/>
+        <!-- Central Arch -->
+        <path d="M95,300 L95,190 Q150,140 205,190 L205,300 Z" fill="rgba(5,20,45,0.7)"/>
+        <!-- Side Turrets & Dome Details -->
+        <rect x="30" y="70" width="35" height="40" fill="rgba(255,255,255,0.22)"/>
+        <rect x="235" y="70" width="35" height="40" fill="rgba(255,255,255,0.22)"/>
+        <path d="M105,90 Q150,50 195,90 Z" fill="rgba(255,255,255,0.25)"/>
+        <circle cx="150" cy="120" r="12" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
       </svg>
 
-      <!-- Bandra-Worli Sea Link (Center/Left) -->
-      <svg class="landmark landmark-sealink" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax meet">
-        <polygon points="120,300 135,110 145,110 160,300" fill="rgba(255,255,255,0.22)"/>
-        <polygon points="240,300 255,70 265,70 280,300" fill="rgba(255,255,255,0.25)"/>
-        <path d="M140,120 L40,300 M140,120 L70,300 M140,120 L100,300 M140,120 L180,300 M140,120 L210,300" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
-        <path d="M260,80 L150,300 M260,80 L180,300 M260,80 L220,300 M260,80 L300,300 M260,80 L340,300 M260,80 L370,300" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-        <rect x="0" y="280" width="400" height="8" fill="rgba(255,255,255,0.3)"/>
+      <!-- 2. CSMT - Chhatrapati Shivaji Maharaj Terminus (Positioned Center) -->
+      <svg class="landmark landmark-csmt" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax meet">
+        <!-- Main Gothic Facade Base -->
+        <path d="M30,300 L30,170 L110,140 L200,60 L290,140 L370,170 L370,300 Z" fill="rgba(255,255,255,0.12)"/>
+        <!-- Central Octagonal Dome -->
+        <path d="M165,80 Q200,10 235,80 Z" fill="rgba(255,255,255,0.18)"/>
+        <line x1="200" y1="10" x2="200" y2="-5" stroke="rgba(255,215,0,0.6)" stroke-width="2"/>
+        <!-- Gothic Rose Window & Arches -->
+        <circle cx="200" cy="120" r="20" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
+        <path d="M160,300 L160,220 Q200,180 240,220 L240,300 Z" fill="rgba(5,20,45,0.65)"/>
+        <!-- Side Spire Accents -->
+        <polygon points="100,140 110,90 120,140" fill="rgba(255,255,255,0.2)"/>
+        <polygon points="280,140 290,90 300,140" fill="rgba(255,255,255,0.2)"/>
       </svg>
 
-      <!-- Gateway of India (Right) -->
-      <svg class="landmark landmark-gateway" viewBox="0 0 300 300" preserveAspectRatio="xMaxYMax meet">
-        <path d="M50,300 L50,120 L70,100 L230,100 L250,120 L250,300 Z" fill="rgba(255,255,255,0.15)"/>
-        <path d="M100,300 L100,200 Q150,150 200,200 L200,300 Z" fill="rgba(5,20,45,0.65)"/>
-        <rect x="40" y="80" width="30" height="40" fill="rgba(255,255,255,0.2)"/>
-        <rect x="230" y="80" width="30" height="40" fill="rgba(255,255,255,0.2)"/>
-        <path d="M110,100 Q150,60 190,100 Z" fill="rgba(255,255,255,0.22)"/>
-      </svg>
-
-      <!-- CSMT Terminus (Lower/Right Background) -->
-      <svg class="landmark landmark-csmt" viewBox="0 0 350 250" preserveAspectRatio="xMaxYMax slice">
-        <path d="M50,250 L50,160 L120,130 L175,70 L230,130 L300,160 L300,250 Z" fill="rgba(255,255,255,0.1)"/>
-        <path d="M145,80 Q175,20 205,80 Z" fill="rgba(255,255,255,0.15)"/>
-        <line x1="175" y1="20" x2="175" y2="5" stroke="rgba(255,215,0,0.5)" stroke-width="2"/>
-        <circle cx="175" cy="110" r="16" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+      <!-- 3. Bandra-Worli Sea Link (Positioned Right) -->
+      <svg class="landmark landmark-sealink" viewBox="0 0 450 300" preserveAspectRatio="xMaxYMax meet">
+        <!-- Cable Stay Pylons -->
+        <polygon points="120,300 135,90 145,90 160,300" fill="rgba(255,255,255,0.25)"/>
+        <polygon points="270,300 285,50 295,50 310,300" fill="rgba(255,255,255,0.28)"/>
+        <!-- Suspended Stay Cables -->
+        <path d="M140,100 L20,300 M140,100 L50,300 M140,100 L80,300 M140,100 L110,300 M140,100 L180,300 M140,100 L210,300" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+        <path d="M290,60 L180,300 M290,60 L210,300 M290,60 L240,300 M290,60 L270,300 M290,60 L330,300 M290,60 L370,300 M290,60 L410,300" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+        <!-- Bridge Road Deck -->
+        <rect x="0" y="280" width="450" height="10" fill="rgba(255,255,255,0.3)"/>
       </svg>
     </div>
 
-    <!-- Dark Overlay Filter -->
+    <!-- Soft Dark Navy Overlay Filter (rgba 0.35 to 0.60 gradient) -->
     <div class="hero-overlay"></div>
 
-    <!-- Hero Interactive Content -->
+    <!-- Central Route Finder Interface -->
     <div class="hero-content">
       <h1>Mumbai Metro Route Finder</h1>
       <h2>Find Your Best Mumbai Metro Route</h2>
 
-      <!-- Glassmorphism Card -->
+      <!-- Glassmorphism Card Container -->
       <div class="glass-route-card">
         <form id="route-form" autocomplete="off" onsubmit="return false;">
           
@@ -100,7 +108,7 @@
     </div>
   </header>
 
-  <!-- Route Output -->
+  <!-- Route Results Section -->
   <main class="main-container">
     <div id="route-results" class="results-container"></div>
   </main>
