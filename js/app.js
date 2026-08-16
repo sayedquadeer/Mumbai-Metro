@@ -5,16 +5,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   const toList = document.getElementById('to-autocomplete-list');
   const routeForm = document.getElementById('route-form');
   const resultsContainer = document.getElementById('route-results');
+  const routeModal = document.getElementById('route-modal');
+  const modalContent = document.getElementById('modal-route-content');
 
-  // Track station selection state internally via Station IDs
+  // Internal state tracking
   let selectedFromStationId = null;
   let selectedToStationId = null;
 
-  // Ensure JSON data is loaded
+  // Initialize Data
   const dataLoaded = await MetroData.init();
   if (!dataLoaded && resultsContainer) {
     resultsContainer.innerHTML = `
-      <div class="error-card" style="padding: 1rem; background: #fee2e2; border: 1px solid #f87171; color: #991b1b; border-radius: 8px;">
+      <div class="error-card">
         ⚠️ Failed to load metro station data. Please ensure <code>./data/metro.json</code> is accessible.
       </div>
     `;
@@ -37,10 +39,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       matches.forEach(station => {
         const item = document.createElement('div');
         item.className = 'autocomplete-item';
-        item.style.cssText = 'padding: 0.75rem; cursor: pointer; display: flex; justify-content: space-between; border-bottom: 1px solid #eee;';
         item.innerHTML = `
-          <span class="station-name" style="font-weight: 600;">🚇 ${station.name}</span>
-          <span class="station-line" style="font-size: 0.75rem; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 4px;">${station.line}</span>
+          <span class="station-name">🚇 ${station.name}</span>
+          <span class="station-line">${station.line}</span>
         `;
 
         item.addEventListener('click', () => {
@@ -53,7 +54,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     });
 
-    // Handle manual text matches if user types full name without clicking
     inputEl.addEventListener('blur', () => {
       setTimeout(() => {
         const match = MetroData.getStationByName(inputEl.value);
@@ -65,18 +65,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  setupAutocomplete(fromInput, fromList, (id) => {
-    selectedFromStationId = id;
-  });
+  setupAutocomplete(fromInput, fromList, (id) => { selectedFromStationId = id; });
+  setupAutocomplete(toInput, toList, (id) => { selectedToStationId = id; });
 
-  setupAutocomplete(toInput, toList, (id) => {
-    selectedToStationId = id;
-  });
-
-  // Calculate and display route sequence
   function calculateRoute() {
-    if (!resultsContainer) return;
-
     const fromVal = fromInput ? fromInput.value.trim() : '';
     const toVal = toInput ? toInput.value.trim() : '';
 
@@ -90,7 +82,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Resolve Station IDs from internal selection or string lookup
     let fromStation = selectedFromStationId ? MetroData.getStationById(selectedFromStationId) : MetroData.getStationByName(fromVal);
     let toStation = selectedToStationId ? MetroData.getStationById(selectedToStationId) : MetroData.getStationByName(toVal);
 
@@ -116,28 +107,54 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    renderRouteResult(path);
+    renderRouteResult(path, fromStation, toStation);
   }
 
   function renderError(message) {
-    resultsContainer.innerHTML = `
-      <div class="route-error-card" style="margin-top: 1.5rem; padding: 1.25rem; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; color: #be123c; font-weight: 600; text-align: center;">
-        ${message}
-      </div>
-    `;
+    if (resultsContainer) {
+      resultsContainer.innerHTML = `
+        <div class="route-error-card">
+          ${message}
+        </div>
+      `;
+    }
   }
 
-  function renderRouteResult(path) {
+  function closeModal() {
+    if (routeModal) {
+      routeModal.classList.add('hidden');
+      routeModal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function openModal() {
+    if (routeModal) {
+      routeModal.classList.remove('hidden');
+      routeModal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function renderRouteResult(path, fromStation, toStation) {
+    const totalStations = path.length;
+    const interchangesCount = countInterchanges(path);
+
     let html = `
-      <div class="route-result-card" style="margin-top: 2rem; background: #ffffff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid #e2e8f0;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 1rem;">
-          <div>
-            <h3 style="margin: 0; color: #0f172a; font-size: 1.25rem;">Route Summary</h3>
-            <p style="margin: 0.25rem 0 0 0; color: #64748b; font-size: 0.9rem;">Total Stations: <strong>${path.length}</strong> | Interchanges: <strong>${countInterchanges(path)}</strong></p>
-          </div>
-          <span style="background: #dcfce7; color: #15803d; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">Shortest Path</span>
+      <div class="modal-header">
+        <h3>🚇 Your Mumbai Metro Route</h3>
+        <button type="button" class="modal-close-icon" id="btn-close-x" aria-label="Close">✕</button>
+      </div>
+      
+      <div class="route-meta-summary">
+        <div class="meta-item"><strong>From:</strong> ${fromStation.name}</div>
+        <div class="meta-item"><strong>To:</strong> ${toStation.name}</div>
+        <div class="meta-details">
+          <span>Total Stations: <strong>${totalStations}</strong></span>
+          <span>Interchanges: <strong>${interchangesCount}</strong></span>
         </div>
-        <div class="station-timeline" style="position: relative; padding-left: 1.5rem; border-left: 3px solid #0284c7;">
+      </div>
+
+      <div class="route-timeline-container">
+        <div class="timeline-line"></div>
     `;
 
     for (let i = 0; i < path.length; i++) {
@@ -145,30 +162,51 @@ document.addEventListener('DOMContentLoaded', async () => {
       const prev = i > 0 ? path[i - 1] : null;
       const isInterchange = prev && prev.line !== current.line;
 
+      // Line Transfer Banner
       if (isInterchange) {
         html += `
-          <div class="interchange-badge" style="margin: 1rem 0; padding: 0.5rem 0.75rem; background: #fef3c7; border: 1px solid #fde047; color: #b45309; border-radius: 8px; font-size: 0.85rem; font-weight: 700;">
-            🔄 Interchange: Switch from ${prev.line} to ${current.line}
+          <div class="timeline-interchange-banner">
+            <div class="interchange-icon">🔄</div>
+            <div class="interchange-text">
+              <strong>CHANGE METRO LINE</strong><br/>
+              Switch from <span>${prev.line}</span> to <span>${current.line}</span> at <strong>${current.name}</strong>
+            </div>
           </div>
         `;
       }
 
+      // Timeline Station Node
+      const isStart = i === 0;
+      const isEnd = i === path.length - 1;
+      const nodeClass = isStart ? 'node-start' : (isEnd ? 'node-end' : (isInterchange ? 'node-interchange' : 'node-step'));
+
       html += `
-        <div class="timeline-item" style="position: relative; margin-bottom: 1rem;">
-          <div style="position: absolute; left: -1.95rem; top: 0.25rem; width: 12px; height: 12px; border-radius: 50%; background: ${i === 0 ? '#16a34a' : i === path.length - 1 ? '#dc2626' : '#0284c7'}; border: 2px solid #fff;"></div>
-          <div style="font-weight: 700; color: #0f172a; font-size: 1rem;">${current.name}</div>
-          <div style="font-size: 0.8rem; color: #64748b;">${current.line}</div>
+        <div class="timeline-step">
+          <div class="timeline-node ${nodeClass}"></div>
+          <div class="timeline-content">
+            <div class="station-title">${current.name}</div>
+            <div class="station-line-badge">${current.line}</div>
+          </div>
         </div>
       `;
     }
 
     html += `
-        </div>
+      </div>
+
+      <div class="modal-action-buttons">
+        <button type="button" id="btn-got-it" class="btn-modal-action btn-got-it">✓ GOT IT</button>
+        <button type="button" id="btn-exit" class="btn-modal-action btn-exit">✕ EXIT</button>
       </div>
     `;
 
-    resultsContainer.innerHTML = html;
-    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    modalContent.innerHTML = html;
+    openModal();
+
+    // Event Listeners for Modal Closing Controls
+    document.getElementById('btn-got-it')?.addEventListener('click', closeModal);
+    document.getElementById('btn-exit')?.addEventListener('click', closeModal);
+    document.getElementById('btn-close-x')?.addEventListener('click', closeModal);
   }
 
   function countInterchanges(path) {
@@ -181,6 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return count;
   }
 
+  // Form Submit Handlers
   if (routeForm) {
     routeForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -193,6 +232,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     findBtn.addEventListener('click', (e) => {
       e.preventDefault();
       calculateRoute();
+    });
+  }
+
+  // Click outside modal card to close
+  if (routeModal) {
+    routeModal.addEventListener('click', (e) => {
+      if (e.target === routeModal) {
+        closeModal();
+      }
     });
   }
 });
