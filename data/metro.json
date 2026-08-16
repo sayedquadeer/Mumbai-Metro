@@ -1,82 +1,83 @@
 {
-  "lines": [
-    {
-      "id": "line-1",
-      "name": "Line 1 (Blue Line)",
-      "color": "#0072CE",
-      "stations": [
-        "Versova",
-        "D.N. Nagar",
-        "Azad Nagar",
-        "Andheri",
-        "Western Express Highway",
-        "Chakala (JB Nagar)",
-        "Airport Road",
-        "Marol Naka",
-        "Saki Naka",
-        "Asalpha",
-        "Jagruti Nagar",
-        "Ghatkopar"
-      ]
-    },
-    {
-      "id": "line-2a",
-      "name": "Line 2A (Yellow Line)",
-      "color": "#FFC72C",
-      "stations": [
-        "Dahisar East",
-        "Anand Nagar",
-        "Kandarpada",
-        "Mandapeshwar",
-        "Dahanukarwadi",
-        "Kandivali West",
-        "Pahadi Exer",
-        "Goregaon West",
-        "Oshiwara",
-        "Lower Oshiwara",
-        "D.N. Nagar",
-        "Andheri West"
-      ]
-    },
-    {
-      "id": "line-7",
-      "name": "Line 7 (Red Line)",
-      "color": "#E31837",
-      "stations": [
-        "Dahisar East",
-        "Ovaripada",
-        "National Park",
-        "Devipada",
-        "Magathane",
-        "Poisar",
-        "Akurli",
-        "Kurar",
-        "Dindoshi",
-        "Aarey",
-        "Goregaon East",
-        "Jogeshwari East",
-        "Moglra",
-        "Gundavali"
-      ]
-    }
+  "stations": [
+    { "id": "versova", "name": "Versova", "line": "Line 1" },
+    { "id": "dn_nagar", "name": "D.N. Nagar", "line": "Line 1" },
+    { "id": "azad_nagar", "name": "Azad Nagar", "line": "Line 1" },
+    { "id": "andheri", "name": "Andheri", "line": "Line 1" },
+    { "id": "weh", "name": "Western Express Highway", "line": "Line 1" },
+    { "id": "chakala", "name": "Chakala", "line": "Line 1" },
+    { "id": "airport_road", "name": "Airport Road", "line": "Line 1" },
+    { "id": "marol_naka", "name": "Marol Naka", "line": "Line 1" },
+    { "id": "saki_naka", "name": "Saki Naka", "line": "Line 1" },
+    { "id": "asalpha", "name": "Asalpha", "line": "Line 1" },
+    { "id": "jagruti_nagar", "name": "Jagruti Nagar", "line": "Line 1" },
+    { "id": "ghatkopar", "name": "Ghatkopar", "line": "Line 1" },
+
+    { "id": "dahisar_east", "name": "Dahisar East", "line": "Line 2A" },
+    { "id": "anand_nagar", "name": "Anand Nagar", "line": "Line 2A" },
+    { "id": "kandivali_west", "name": "Kandivali West", "line": "Line 2A" },
+    { "id": "goregaon_west", "name": "Goregaon West", "line": "Line 2A" },
+    { "id": "lower_malad", "name": "Lower Malad", "line": "Line 2A" },
+
+    { "id": "cuffe_parade", "name": "Cuffe Parade", "line": "Line 3" },
+    { "id": "nariman_point", "name": "Nariman Point", "line": "Line 3" },
+    { "id": "churchgate", "name": "Churchgate", "line": "Line 3" },
+    { "id": "csmt", "name": "CSMT", "line": "Line 3" },
+    { "id": "kalbadevi", "name": "Kalbadevi", "line": "Line 3" },
+    { "id": "girgaon", "name": "Girgaon", "line": "Line 3" },
+    { "id": "grant_road", "name": "Grant Road", "line": "Line 3" },
+    { "id": "dadar_l3", "name": "Dadar", "line": "Line 3" },
+    { "id": "siddhivinayak", "name": "Siddhivinayak", "line": "Line 3" },
+    { "id": "mumbai_central", "name": "Mumbai Central", "line": "Line 3" },
+    { "id": "marol_naka_l3", "name": "Marol Naka", "line": "Line 3" },
+    { "id": "seepz", "name": "SEEPZ", "line": "Line 3" },
+    { "id": "aarey_colony", "name": "Aarey JVLR", "line": "Line 3" },
+
+    { "id": "aarey_l7", "name": "Aarey East", "line": "Line 7" },
+    { "id": "goregaon_east", "name": "Goregaon East", "line": "Line 7" },
+    { "id": "jogeshwari_east", "name": "Jogeshwari East", "line": "Line 7" },
+    { "id": "weh_l7", "name": "Western Express Highway", "line": "Line 7" },
+    { "id": "gundavali", "name": "Gundavali", "line": "Line 7" }
   ],
-  "interchanges": [
-    {
-      "station": "D.N. Nagar",
-      "lines": ["line-1", "line-2a"],
-      "walkable": true
-    },
-    {
-      "station": "Dahisar East",
-      "lines": ["line-2a", "line-7"],
-      "walkable": true
-    },
-    {
-      "station": "Gundavali",
-      "lines": ["line-7", "line-1"],
-      "connectsTo": "Western Express Highway",
-      "walkable": true
-    }
+  "connections": [
+    ["versova", "dn_nagar"],
+    ["dn_nagar", "azad_nagar"],
+    ["azad_nagar", "andheri"],
+    ["andheri", "weh"],
+    ["weh", "chakala"],
+    ["chakala", "airport_road"],
+    ["airport_road", "marol_naka"],
+    ["marol_naka", "saki_naka"],
+    ["saki_naka", "asalpha"],
+    ["asalpha", "jagruti_nagar"],
+    ["jagruti_nagar", "ghatkopar"],
+
+    ["dahisar_east", "anand_nagar"],
+    ["anand_nagar", "kandivali_west"],
+    ["kandivali_west", "goregaon_west"],
+    ["goregaon_west", "lower_malad"],
+    ["lower_malad", "dn_nagar"],
+
+    ["cuffe_parade", "nariman_point"],
+    ["nariman_point", "churchgate"],
+    ["churchgate", "csmt"],
+    ["csmt", "kalbadevi"],
+    ["kalbadevi", "girgaon"],
+    ["girgaon", "grant_road"],
+    ["grant_road", "mumbai_central"],
+    ["mumbai_central", "dadar_l3"],
+    ["dadar_l3", "siddhivinayak"],
+    ["siddhivinayak", "marol_naka_l3"],
+    ["marol_naka_l3", "seepz"],
+    ["seepz", "aarey_colony"],
+
+    ["marol_naka", "marol_naka_l3"],
+
+    ["aarey_l7", "goregaon_east"],
+    ["goregaon_east", "jogeshwari_east"],
+    ["jogeshwari_east", "weh_l7"],
+    ["weh_l7", "gundavali"],
+
+    ["weh", "weh_l7"]
   ]
 }
-
