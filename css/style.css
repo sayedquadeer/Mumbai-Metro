@@ -1,12 +1,10 @@
-/* ==========================================
-   COLOR VARIABLES & BASE SETUP
-   ========================================== */
 :root {
   --navy-deep: #05142d;
   --navy-medium: #0d2847;
   --blue-sky: #00a8e8;
   --gold-accent: #ffd700;
   --text-dark: #1e293b;
+  --text-muted: #64748b;
   --glass-bg: rgba(255, 255, 255, 0.84);
   --glass-border: rgba(255, 255, 255, 0.48);
   --shadow-soft: 0 20px 40px rgba(5, 20, 45, 0.35);
@@ -25,9 +23,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ==========================================
-   HERO SECTION & MUMBAI LANDMARKS BACKGROUND
-   ========================================== */
+/* Hero & Background Layers */
 .hero-container {
   position: relative;
   width: 100%;
@@ -40,14 +36,12 @@ body {
   overflow: hidden;
 }
 
-/* Royalty-Free Blended Photography Layer */
 .mumbai-photo-bg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* Blended royalty-free image composition covering Sea Link, Gateway & City Skyline */
   background-image: url('https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1920&q=80');
   background-size: cover;
   background-position: center bottom;
@@ -57,7 +51,6 @@ body {
   z-index: 1;
 }
 
-/* Vector Landmark Composition Layer */
 .mumbai-landmarks-bg {
   position: absolute;
   top: 0;
@@ -74,29 +67,10 @@ body {
   filter: blur(0.2px);
 }
 
-/* Specific Positioning for the 3 Key Landmarks */
-.landmark-gateway {
-  left: 1%;
-  width: 32%;
-  height: auto;
-  opacity: 0.55;
-}
+.landmark-gateway { left: 1%; width: 32%; height: auto; opacity: 0.55; }
+.landmark-csmt { left: 28%; width: 42%; height: auto; opacity: 0.45; }
+.landmark-sealink { right: 0%; width: 40%; height: auto; opacity: 0.65; }
 
-.landmark-csmt {
-  left: 28%;
-  width: 42%;
-  height: auto;
-  opacity: 0.45;
-}
-
-.landmark-sealink {
-  right: 0%;
-  width: 40%;
-  height: auto;
-  opacity: 0.65;
-}
-
-/* Soft Navy/Blue Overlay Gradient (0.35 to 0.60 opacity) */
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -107,9 +81,6 @@ body {
   z-index: 3;
 }
 
-/* ==========================================
-   MAIN CONTENT & GLASSMORPHISM CARD
-   ========================================== */
 .hero-content {
   position: relative;
   z-index: 4;
@@ -136,7 +107,7 @@ body {
   text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Glassmorphism Route Search Box */
+/* Glassmorphism Route Card */
 .glass-route-card {
   background: var(--glass-bg);
   backdrop-filter: blur(14px);
@@ -182,7 +153,6 @@ body {
   box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.25);
 }
 
-/* Autocomplete Dropdown Panel */
 .autocomplete-items {
   position: absolute;
   border: 1px solid rgba(5, 20, 45, 0.15);
@@ -225,45 +195,287 @@ body {
   box-shadow: 0 4px 12px rgba(5, 20, 45, 0.25);
 }
 
+/* Route Error Display */
+.route-error-card {
+  margin: 1.5rem auto;
+  max-width: 520px;
+  padding: 1.25rem;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  color: #be123c;
+  font-weight: 600;
+  text-align: center;
+}
+
 /* ==========================================
-   MOBILE RESPONSIVENESS (NO HORIZONTAL SCROLL)
+   ROUTE RESULT MODAL & TIMELINE
    ========================================== */
-@media (max-width: 768px) {
-  .hero-container {
-    min-height: 90vh;
-    padding: 1.5rem 1rem;
-  }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(5, 20, 45, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
 
-  .hero-content h1 {
-    font-size: 1.75rem;
-  }
+.modal-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
 
-  .hero-content h2 {
-    font-size: 0.95rem;
-    margin-bottom: 1.4rem;
-  }
+.modal-card {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 540px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(5, 20, 45, 0.4);
+  animation: modalSlideUp 0.3s ease-out forwards;
+}
 
-  .glass-route-card {
-    padding: 1.25rem;
-    border-radius: 16px;
-  }
+@keyframes modalSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
 
-  /* Responsive Scaling for All 3 Landmarks */
-  .landmark-gateway {
-    width: 42%;
-    left: -5%;
-    opacity: 0.45;
-  }
+#modal-route-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
 
-  .landmark-csmt {
-    width: 55%;
-    left: 20%;
-    opacity: 0.35;
-  }
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
 
-  .landmark-sealink {
-    width: 55%;
-    right: -8%;
-    opacity: 0.50;
-  }
+.modal-header h3 {
+  font-size: 1.25rem;
+  color: var(--navy-deep);
+  font-weight: 800;
+}
+
+.modal-close-icon {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.modal-close-icon:hover {
+  background: #e2e8f0;
+  color: var(--navy-deep);
+}
+
+.route-meta-summary {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.route-meta-summary .meta-item {
+  color: var(--text-dark);
+  margin-bottom: 0.25rem;
+}
+
+.route-meta-summary .meta-details {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px stroke #e2e8f0;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* Timeline Layout */
+.route-timeline-container {
+  position: relative;
+  padding: 0.5rem 0 1rem 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.timeline-line {
+  position: absolute;
+  top: 1.25rem;
+  bottom: 1.25rem;
+  left: 0.45rem;
+  width: 4px;
+  background: linear-gradient(180deg, #16a34a 0%, #0284c7 50%, #dc2626 100%);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.timeline-step {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+  z-index: 2;
+}
+
+.timeline-step:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-node {
+  position: absolute;
+  left: -1.75rem;
+  top: 0.15rem;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+}
+
+.node-start { background: #16a34a; width: 16px; height: 16px; left: -1.8rem; }
+.node-end { background: #dc2626; width: 16px; height: 16px; left: -1.8rem; }
+.node-interchange { background: #f59e0b; width: 16px; height: 16px; left: -1.8rem; }
+.node-step { background: #0284c7; }
+
+.timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  word-break: break-word;
+}
+
+.station-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy-deep);
+  line-height: 1.2;
+}
+
+.station-line-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.725rem;
+  font-weight: 700;
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+
+/* Interchange Banner Callout */
+.timeline-interchange-banner {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  margin: 0.75rem 0 1.25rem -0.5rem;
+  box-shadow: 0 2px 6px rgba(245, 158, 11, 0.12);
+}
+
+.interchange-icon {
+  font-size: 1.25rem;
+}
+
+.interchange-text {
+  font-size: 0.825rem;
+  color: #92400e;
+  line-height: 1.35;
+}
+
+.interchange-text span {
+  text-decoration: underline;
+}
+
+/* Action Control Buttons */
+.modal-action-buttons {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f1f5f9;
+}
+
+.btn-modal-action {
+  flex: 1;
+  padding: 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.1s, opacity 0.15s;
+}
+
+.btn-modal-action:active {
+  transform: scale(0.98);
+}
+
+.btn-got-it {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.25);
+}
+
+.btn-exit {
+  background: #f1f5f9;
+  color: var(--text-dark);
+  border: 1px solid #cbd5e1;
+}
+
+.btn-exit:hover {
+  background: #e2e8f0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .hero-container { min-height: 90vh; padding: 1.5rem 1rem; }
+  .hero-content h1 { font-size: 1.75rem; }
+  .hero-content h2 { font-size: 0.95rem; margin-bottom: 1.4rem; }
+  .glass-route-card { padding: 1.25rem; border-radius: 16px; }
+
+  .landmark-gateway { width: 42%; left: -5%; opacity: 0.45; }
+  .landmark-csmt { width: 55%; left: 20%; opacity: 0.35; }
+  .landmark-sealink { width: 55%; right: -8%; opacity: 0.50; }
+
+  .modal-overlay { padding: 0.5rem; }
+  .modal-card { max-height: 92vh; border-radius: 16px; }
+  #modal-route-content { padding: 1rem; }
+  .btn-modal-action { padding: 0.75rem 0.5rem; font-size: 0.85rem; }
 }
