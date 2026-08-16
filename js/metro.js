@@ -1,38 +1,58 @@
-// Central Data Loader & Verification Utility
 const MetroData = {
   stations: [],
+  connections: [],
+  stationMap: new Map(),
+  graph: new Map(),
   isLoaded: false,
 
   async init() {
-    if (this.isLoaded) return;
+    if (this.isLoaded) return true;
     try {
-      const response = await fetch('data/metro.json');
-      if (!response.ok) throw new Error('Network response was not ok');
+      const response = await fetch('./data/metro.json');
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
       const data = await response.json();
       
-      // Extract unique station entities across all configured line arrays
-      const stationMap = new Map();
-      
-      if (data.lines && Array.isArray(data.lines)) {
-        data.lines.forEach(line => {
-          if (line.stations && Array.isArray(line.stations)) {
-            line.stations.forEach(st => {
-              const name = typeof st === 'string' ? st : st.name;
-              if (name && !stationMap.has(name)) {
-                stationMap.set(name, {
-                  name: name,
-                  line: line.name || 'Mumbai Metro'
-                });
-              }
-            });
-          }
-        });
-      }
+      this.stations = data.stations || [];
+      this.connections = data.connections || [];
+      this.stationMap.clear();
+      this.graph.clear();
 
-      this.stations = Array.from(stationMap.values());
+      // Index stations by ID and normalized search key
+      this.stations.forEach(station => {
+        const normalizedId = this.normalize(station.id);
+        const normalizedName = this.normalize(station.name);
+        
+        const stationObj = {
+          ...station,
+          id: normalizedId,
+          searchKey: normalizedName
+        };
+        
+        this.stationMap.set(normalizedId, stationObj);
+        if (!this.graph.has(normalizedId)) {
+          this.graph.set(normalizedId, []);
+        }
+      });
+
+      // Build bidirectional adjacency graph
+      this.connections.forEach(([from, to]) => {
+        const u = this.normalize(from);
+        const v = this.normalize(to);
+
+        if (this.graph.has(u) && this.graph.has(v)) {
+          this.graph.get(u).push(v);
+          this.graph.get(v).push(u);
+        }
+      });
+
       this.isLoaded = true;
+      return true;
     } catch (err) {
-      console.error('Failed to load metro station data:', err);
+      console.error('MetroData initialization error:', err);
+      this.isLoaded = false;
+      return false;
     }
   },
 
@@ -43,25 +63,72 @@ const MetroData = {
       .replace(/\s+/g, ' ');
   },
 
+  getStationById(id) {
+    return this.stationMap.get(this.normalize(id)) || null;
+  },
+
+  getStationByName(name) {
+    const clean = this.normalize(name);
+    for (let station of this.stationMap.values()) {
+      if (station.searchKey === clean) {
+        return station;
+      }
+    }
+    return null;
+  },
+
   searchStations(query) {
-    const cleanQuery = this.normalize(query);
-    if (!cleanQuery) return [];
+    const q = this.normalize(query);
+    if (!q) return [];
 
-    // Pass 1: Starts With Match
-    const startsWithMatches = this.stations.filter(st => 
-      this.normalize(st.name).startsWith(cleanQuery)
-    );
+    const startsWith = [];
+    const includes = [];
 
-    // Pass 2: Includes Match (excluding previous startsWith hits)
-    const includesMatches = this.stations.filter(st => 
-      !this.normalize(st.name).startsWith(cleanQuery) && 
-      this.normalize(st.name).includes(cleanQuery)
-    );
+    for (let station of this.stationMap.values()) {
+      if (station.searchKey.startsWith(q) || station.id.startsWith(q)) {
+        startsWith.push(station);
+      } else if (station.searchKey.includes(q) || station.id.includes(q)) {
+        includes.push(station);
+      }
+    }
 
-    return [...startsWithMatches, ...includesMatches];
+    return [...startsWith, ...includes];
+  },
+
+  // Breadth-First Search Pathfinding Algorithm
+  findShortestPath(startId, endId) {
+    const start = this.normalize(startId);
+    const end = this.normalize(endId);
+
+    if (!this.graph.has(start) || !this.graph.has(end)) {
+      return null;
+    }
+
+    if (start === end) {
+      return [this.getStationById(start)];
+    }
+
+    const queue = [[start]];
+    const visited = new Set([start]);
+
+    while (queue.length > 0) {
+      const path = queue.shift();
+      const node = path[path.length - 1];
+
+      const neighbors = this.graph.get(node) || [];
+      for (let neighbor of neighbors) {
+        if (neighbor === end) {
+          const fullPath = [...path, neighbor];
+          return fullPath.map(id => this.getStationById(id));
+        }
+
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push([...path, neighbor]);
+        }
+      }
+    }
+
+    return null; // No path found
   }
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  MetroData.init();
-});
