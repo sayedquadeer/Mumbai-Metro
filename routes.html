@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Metro Route Search – Mumbai Metro Route Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">Mumbai Metro <span>Route Finder</span></a>
+      <button class="menu-toggle">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="routes.html" class="active">Routes</a></li>
+        <li><a href="stations.html">Stations</a></li>
+        <li><a href="lines.html">Lines</a></li>
+        <li><a href="map.html">Map</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="section-title">Mumbai Metro Route Finder</h1>
+    <p style="margin-bottom: 1.5rem;">Select any origin station and target destination to discover available path sequences, interchange junctions, and network stop details across Mumbai Metro lines.</p>
+
+    <div class="finder-card" style="margin: 0 0 2rem 0; max-width: 100%;">
+      <div class="form-group">
+        <label for="from-station">FROM STATION</label>
+        <div class="input-wrapper">
+          <input type="text" id="from-station" class="form-control" placeholder="Select start station" autocomplete="off">
+          <ul id="from-suggestions" class="suggestions-list"></ul>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="to-station">TO STATION</label>
+        <div class="input-wrapper">
+          <input type="text" id="to-station" class="form-control" placeholder="Select destination station" autocomplete="off">
+          <ul id="to-suggestions" class="suggestions-list"></ul>
+        </div>
+      </div>
+      <button id="find-route-btn" class="btn-primary">FIND METRO ROUTE</button>
+      <div id="route-error" class="text-error"></div>
+    </div>
+
+    <section id="route-results" class="results-container">
+      <h2 class="section-title">Best Available Metro Route</h2>
+      <div id="route-summary-box" class="route-summary"></div>
+      <div id="route-timeline" class="timeline"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p><a href="about.html">About</a> | <a href="privacy.html">Privacy Policy</a> | <a href="disclaimer.html">Disclaimer</a></p>
+    </div>
+  </footer>
+
+  <script src="js/metro.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+
