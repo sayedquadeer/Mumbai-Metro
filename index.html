@@ -12,54 +12,44 @@
   <!-- HERO SECTION WITH MUMBAI 3-LANDMARK BLENDED BACKGROUND -->
   <header class="hero-container">
     
-    <!-- Photo Layer: Blended Mumbai Landmarks Collage (Fallback/Imagery) -->
+    <!-- Photo Layer: Blended Mumbai Landmarks Collage -->
     <div class="mumbai-photo-bg" aria-hidden="true"></div>
 
     <!-- SVG Layer: Vector Silhouettes of Gateway, CSMT, and Sea Link -->
     <div class="mumbai-landmarks-bg" aria-hidden="true">
       
-      <!-- 1. Gateway of India (Positioned Left) -->
+      <!-- 1. Gateway of India -->
       <svg class="landmark landmark-gateway" viewBox="0 0 300 300" preserveAspectRatio="xMinYMax meet">
-        <!-- Main Structure -->
         <path d="M40,300 L40,110 L65,90 L235,90 L260,110 L260,300 Z" fill="rgba(255,255,255,0.16)"/>
-        <!-- Central Arch -->
         <path d="M95,300 L95,190 Q150,140 205,190 L205,300 Z" fill="rgba(5,20,45,0.7)"/>
-        <!-- Side Turrets & Dome Details -->
         <rect x="30" y="70" width="35" height="40" fill="rgba(255,255,255,0.22)"/>
         <rect x="235" y="70" width="35" height="40" fill="rgba(255,255,255,0.22)"/>
         <path d="M105,90 Q150,50 195,90 Z" fill="rgba(255,255,255,0.25)"/>
         <circle cx="150" cy="120" r="12" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
       </svg>
 
-      <!-- 2. CSMT - Chhatrapati Shivaji Maharaj Terminus (Positioned Center) -->
+      <!-- 2. CSMT -->
       <svg class="landmark landmark-csmt" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax meet">
-        <!-- Main Gothic Facade Base -->
         <path d="M30,300 L30,170 L110,140 L200,60 L290,140 L370,170 L370,300 Z" fill="rgba(255,255,255,0.12)"/>
-        <!-- Central Octagonal Dome -->
         <path d="M165,80 Q200,10 235,80 Z" fill="rgba(255,255,255,0.18)"/>
         <line x1="200" y1="10" x2="200" y2="-5" stroke="rgba(255,215,0,0.6)" stroke-width="2"/>
-        <!-- Gothic Rose Window & Arches -->
         <circle cx="200" cy="120" r="20" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2.5"/>
         <path d="M160,300 L160,220 Q200,180 240,220 L240,300 Z" fill="rgba(5,20,45,0.65)"/>
-        <!-- Side Spire Accents -->
         <polygon points="100,140 110,90 120,140" fill="rgba(255,255,255,0.2)"/>
         <polygon points="280,140 290,90 300,140" fill="rgba(255,255,255,0.2)"/>
       </svg>
 
-      <!-- 3. Bandra-Worli Sea Link (Positioned Right) -->
+      <!-- 3. Bandra-Worli Sea Link -->
       <svg class="landmark landmark-sealink" viewBox="0 0 450 300" preserveAspectRatio="xMaxYMax meet">
-        <!-- Cable Stay Pylons -->
         <polygon points="120,300 135,90 145,90 160,300" fill="rgba(255,255,255,0.25)"/>
         <polygon points="270,300 285,50 295,50 310,300" fill="rgba(255,255,255,0.28)"/>
-        <!-- Suspended Stay Cables -->
         <path d="M140,100 L20,300 M140,100 L50,300 M140,100 L80,300 M140,100 L110,300 M140,100 L180,300 M140,100 L210,300" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
         <path d="M290,60 L180,300 M290,60 L210,300 M290,60 L240,300 M290,60 L270,300 M290,60 L330,300 M290,60 L370,300 M290,60 L410,300" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-        <!-- Bridge Road Deck -->
         <rect x="0" y="280" width="450" height="10" fill="rgba(255,255,255,0.3)"/>
       </svg>
     </div>
 
-    <!-- Soft Dark Navy Overlay Filter (rgba 0.35 to 0.60 gradient) -->
+    <!-- Soft Dark Navy Overlay Filter -->
     <div class="hero-overlay"></div>
 
     <!-- Central Route Finder Interface -->
@@ -108,9 +98,16 @@
     </div>
   </header>
 
-  <!-- Route Results Section -->
+  <!-- Route Results Inline Container & Modal Overlay -->
   <main class="main-container">
     <div id="route-results" class="results-container"></div>
+    
+    <!-- Modal Panel for Detailed Route Display -->
+    <div id="route-modal" class="modal-overlay hidden" aria-hidden="true">
+      <div class="modal-card">
+        <div id="modal-route-content"></div>
+      </div>
+    </div>
   </main>
 
   <script src="js/metro.js"></script>
