@@ -1,12 +1,15 @@
+/* ==========================================
+   COLOR VARIABLES & BASE SETUP
+   ========================================== */
 :root {
   --navy-deep: #05142d;
-  --navy-medium: #0f2a4a;
+  --navy-medium: #0d2847;
   --blue-sky: #00a8e8;
   --gold-accent: #ffd700;
   --text-dark: #1e293b;
-  --glass-bg: rgba(255, 255, 255, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.45);
-  --shadow-soft: 0 20px 40px rgba(5, 20, 45, 0.3);
+  --glass-bg: rgba(255, 255, 255, 0.84);
+  --glass-border: rgba(255, 255, 255, 0.48);
+  --shadow-soft: 0 20px 40px rgba(5, 20, 45, 0.35);
 }
 
 * {
@@ -22,7 +25,9 @@ body {
   overflow-x: hidden;
 }
 
-/* Hero Section Base */
+/* ==========================================
+   HERO SECTION & MUMBAI LANDMARKS BACKGROUND
+   ========================================== */
 .hero-container {
   position: relative;
   width: 100%;
@@ -30,12 +35,29 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #05142d 0%, #0d3153 50%, #163e63 100%);
+  background: linear-gradient(135deg, #05142d 0%, #0c2b4e 50%, #153c63 100%);
   padding: 2.5rem 1rem;
   overflow: hidden;
 }
 
-/* Background Landmarks Layer */
+/* Royalty-Free Blended Photography Layer */
+.mumbai-photo-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Blended royalty-free image composition covering Sea Link, Gateway & City Skyline */
+  background-image: url('https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center bottom;
+  opacity: 0.22;
+  filter: contrast(110%) saturate(120%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Vector Landmark Composition Layer */
 .mumbai-landmarks-bg {
   position: absolute;
   top: 0;
@@ -43,34 +65,54 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
 }
 
 .landmark {
   position: absolute;
   bottom: 0;
-  filter: blur(0.3px);
+  filter: blur(0.2px);
 }
 
-.landmark-marine-drive { left: 0; width: 55%; height: auto; opacity: 0.6; }
-.landmark-sealink { left: 15%; width: 45%; height: auto; opacity: 0.7; }
-.landmark-gateway { right: 2%; width: 35%; height: auto; opacity: 0.65; }
-.landmark-csmt { right: 22%; width: 38%; height: auto; opacity: 0.45; }
+/* Specific Positioning for the 3 Key Landmarks */
+.landmark-gateway {
+  left: 1%;
+  width: 32%;
+  height: auto;
+  opacity: 0.55;
+}
 
+.landmark-csmt {
+  left: 28%;
+  width: 42%;
+  height: auto;
+  opacity: 0.45;
+}
+
+.landmark-sealink {
+  right: 0%;
+  width: 40%;
+  height: auto;
+  opacity: 0.65;
+}
+
+/* Soft Navy/Blue Overlay Gradient (0.35 to 0.60 opacity) */
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, rgba(5, 20, 45, 0.4) 0%, rgba(5, 20, 45, 0.65) 100%);
-  z-index: 2;
+  background: radial-gradient(circle at center, rgba(5, 20, 45, 0.35) 0%, rgba(5, 20, 45, 0.60) 100%);
+  z-index: 3;
 }
 
-/* Hero Layout */
+/* ==========================================
+   MAIN CONTENT & GLASSMORPHISM CARD
+   ========================================== */
 .hero-content {
   position: relative;
-  z-index: 3;
+  z-index: 4;
   width: 100%;
   max-width: 520px;
   text-align: center;
@@ -82,18 +124,19 @@ body {
   font-size: 2.25rem;
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  margin-bottom: 0.4rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .hero-content h2 {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.92);
   font-size: 1.1rem;
   font-weight: 400;
-  margin-bottom: 2rem;
+  margin-bottom: 1.8rem;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Glassmorphism Route Card */
+/* Glassmorphism Route Search Box */
 .glass-route-card {
   background: var(--glass-bg);
   backdrop-filter: blur(14px);
@@ -136,10 +179,10 @@ body {
 
 .input-group input:focus {
   border-color: var(--blue-sky);
-  box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 168, 232, 0.25);
 }
 
-/* Autocomplete Dropdown Menu */
+/* Autocomplete Dropdown Panel */
 .autocomplete-items {
   position: absolute;
   border: 1px solid rgba(5, 20, 45, 0.15);
@@ -162,30 +205,10 @@ body {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #f1f5f9;
-  transition: background-color 0.15s ease;
-}
-
-.autocomplete-item:last-child {
-  border-bottom: none;
 }
 
 .autocomplete-item:hover {
   background-color: #f0f7ff;
-}
-
-.autocomplete-item .station-name {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--navy-deep);
-}
-
-.autocomplete-item .station-line {
-  font-size: 0.75rem;
-  font-weight: 600;
-  background: #e0f2fe;
-  color: #0369a1;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
 }
 
 .btn-primary {
@@ -199,23 +222,48 @@ body {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(5, 20, 45, 0.2);
+  box-shadow: 0 4px 12px rgba(5, 20, 45, 0.25);
 }
 
-/* Mobile Layout Adjustments */
-@media (max-width: 600px) {
+/* ==========================================
+   MOBILE RESPONSIVENESS (NO HORIZONTAL SCROLL)
+   ========================================== */
+@media (max-width: 768px) {
   .hero-container {
     min-height: 90vh;
     padding: 1.5rem 1rem;
   }
 
-  .hero-content h1 { font-size: 1.75rem; }
-  .hero-content h2 { font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .hero-content h1 {
+    font-size: 1.75rem;
+  }
 
-  .glass-route-card { padding: 1.25rem; border-radius: 16px; }
+  .hero-content h2 {
+    font-size: 0.95rem;
+    margin-bottom: 1.4rem;
+  }
 
-  .landmark-marine-drive { width: 80%; opacity: 0.45; }
-  .landmark-sealink { width: 70%; left: 5%; opacity: 0.55; }
-  .landmark-gateway { width: 50%; right: -5%; opacity: 0.5; }
-  .landmark-csmt { width: 50%; right: 10%; opacity: 0.35; }
+  .glass-route-card {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  /* Responsive Scaling for All 3 Landmarks */
+  .landmark-gateway {
+    width: 42%;
+    left: -5%;
+    opacity: 0.45;
+  }
+
+  .landmark-csmt {
+    width: 55%;
+    left: 20%;
+    opacity: 0.35;
+  }
+
+  .landmark-sealink {
+    width: 55%;
+    right: -8%;
+    opacity: 0.50;
+  }
 }
