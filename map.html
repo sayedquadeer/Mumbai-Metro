@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schematic Map – Mumbai Metro Route Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">Mumbai Metro <span>Route Finder</span></a>
+      <button class="menu-toggle">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="routes.html">Routes</a></li>
+        <li><a href="stations.html">Stations</a></li>
+        <li><a href="lines.html">Lines</a></li>
+        <li><a href="map.html" class="active">Map</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <h1 class="section-title">Mumbai Metro Map</h1>
+    <div class="card" style="text-align: center; padding: 2rem; overflow-x: auto;">
+      <svg viewBox="0 0 800 400" width="100%" height="auto" style="max-width: 800px; background: #fafafa; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <!-- Line 1 -->
+        <path d="M 100 200 L 700 200" stroke="#0072CE" stroke-width="8" fill="none" />
+        <text x="710" y="205" fill="#0072CE" font-weight="bold">Line 1</text>
+        
+        <!-- Line 2A -->
+        <path d="M 200 50 L 200 350" stroke="#FFC72C" stroke-width="8" fill="none" />
+        <text x="170" y="40" fill="#d97706" font-weight="bold">Line 2A</text>
+
+        <!-- Line 7 -->
+        <path d="M 500 50 L 500 350" stroke="#E31837" stroke-width="8" fill="none" />
+        <text x="480" y="40" fill="#E31837" font-weight="bold">Line 7</text>
+
+        <!-- Interchanges -->
+        <circle cx="200" cy="200" r="10" fill="#fff" stroke="#333" stroke-width="3" />
+        <text x="140" y="225" font-size="12" font-weight="bold">D.N. Nagar</text>
+
+        <circle cx="200" cy="80" r="10" fill="#fff" stroke="#333" stroke-width="3" />
+        <text x="110" y="85" font-size="12" font-weight="bold">Dahisar East</text>
+
+        <circle cx="500" cy="80" r="10" fill="#fff" stroke="#333" stroke-width="3" />
+        
+        <circle cx="500" cy="200" r="10" fill="#fff" stroke="#333" stroke-width="3" />
+        <text x="515" y="205" font-size="12" font-weight="bold">WEH / Gundavali</text>
+      </svg>
+      <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">Schematic line representation based on network connectivity data.</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-bottom">
+      <p><a href="about.html">About</a> | <a href="privacy.html">Privacy Policy</a> | <a href="disclaimer.html">Disclaimer</a></p>
+    </div>
+  </footer>
+
+  <script src="js/metro.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
